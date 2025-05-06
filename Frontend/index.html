@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Blood Donation Management System</title>
+  <style>
+    :root {
+      --primary-color: #e74c3c;
+      --secondary-color: #3498db;
+      --text-color: #333;
+      --light-bg: #f9f9f9;
+      --border-color: #ddd;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding: 0;
+      margin: 0;
+      color: var(--text-color);
+      background-color: #f5f5f5;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    header {
+      background-color: var(--primary-color);
+      color: white;
+      padding: 15px 0;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    
+    nav {
+      background-color: #333;
+      display: flex;
+      justify-content: center;
+      margin-bottom: 30px;
+    }
+    
+    nav button {
+      background: none;
+      border: none;
+      color: white;
+      padding: 12px 20px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s;
+    }
+    
+    nav button.active {
+      background-color: var(--primary-color);
+    }
+    
+    nav button:hover {
+      background-color: #555;
+    }
+    
+    .form-section {
+      background-color: white;
+      padding: 25px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+      display: none;
+    }
+    
+    .form-section.active {
+      display: block;
+    }
+    
+    h2 {
+      color: var(--primary-color);
+      margin-top: 0;
+      border-bottom: 2px solid var(--border-color);
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+    }
+    
+    .form-group {
+      margin-bottom: 15px;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 500;
+    }
+    
+    input, select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+    
+    button[type="submit"] {
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 4px;
+      display: block;
+      width: 100%;
+      margin-top: 20px;
+      transition: background-color 0.3s;
+    }
+    
+    button[type="submit"]:hover {
+      background-color: #c0392b;
+    }
+    
+    .phone-numbers-container {
+      border: 1px solid var(--border-color);
+      padding: 15px;
+      border-radius: 4px;
+      margin-bottom: 15px;
+    }
+    
+    .phone-input {
+      display: flex;
+      margin-bottom: 10px;
+      gap: 10px;
+    }
+    
+    .phone-input input {
+      flex-grow: 1;
+    }
+    
+    .add-phone-btn {
+      background-color: var(--secondary-color);
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    
+    .remove-phone-btn {
+      background-color: #e74c3c;
+      color: white;
+      border: none;
+      width: 30px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    
+    #successMessage {
+      padding: 15px;
+      background-color: #dff0d8;
+      border: 1px solid #d6e9c6;
+      color: #3c763d;
+      border-radius: 4px;
+      margin-bottom: 20px;
+      display: none;
+    }
+    
+    @media (max-width: 768px) {
+      nav {
+        flex-direction: column;
+      }
+      
+      nav button {
+        width: 100%;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Blood Donation Management System</h1>
+  </header>
+  
+  <nav>
+    <button id="donorBtn" class="active">Donors</button>
+    <button id="donationBtn">Donations</button>
+    <button id="bloodBankBtn">Blood Banks</button>
+    <button id="hospitalBtn">Hospitals</button>
+    <button id="requestBtn">Blood Requests</button>
+  </nav>
+  
+  <div class="container">
+    <div id="successMessage"></div>
+    
+    <!-- Donor Form -->
+    <div id="donorForm" class="form-section active">
+      <h2>Add New Donor</h2>
+      <form id="addDonorForm">
+        <div class="form-group">
+          <label for="name">Full Name</label>
+          <input type="text" id="name" placeholder="Enter donor name" required />
+        </div>
+        
+        <div class="form-group">
+          <label for="gender">Gender</label>
+          <select id="gender" required>
+            <option value="">Select Gender</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="dob">Date of Birth</label>
+          <input type="date" id="dob" required />
+        </div>
+        
+        <div class="form-group">
+          <label for="blood_type">Blood Type</label>
+          <select id="blood_type" required>
+            <option value="">Select Blood Type</option>
+            <option value="A+">A+</option>
+            <option value="A-">A-</option>
+            <option value="B+">B+</option>
+            <option value="B-">B-</option>
+            <option value="AB+">AB+</option>
+            <option value="AB-">AB-</option>
+            <option value="O+">O+</option>
+            <option value="O-">O-</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label>Phone Numbers</label>
+          <div class="phone-numbers-container">
+            <div id="phoneInputs">
+              <div class="phone-input">
+                <input type="tel" placeholder="Enter phone number" required />
+                <button type="button" class="remove-phone-btn" disabled>×</button>
+              </div>
+            </div>
+            <button type="button" id="addPhoneBtn" class="add-phone-btn">+ Add Phone</button>
+          </div>
+        </div>
+        
+        <button type="submit">Register Donor</button>
+      </form>
+    </div>
+    
+    <!-- Donation Form -->
+    <div id="donationForm" class="form-section">
+      <h2>Record New Donation</h2>
+      <form id="addDonationForm">
+        <div class="form-group">
+          <label for="donor_id">Donor ID</label>
+          <input type="number" id="donor_id" placeholder="Enter donor ID" required />
+        </div>
+        
+        <div class="form-group">
+          <label for="donation_date">Donation Date</label>
+          <input type="date" id="donation_date" required />
+        </div>
+        
+        <div class="form-group">
+          <label for="quantity">Quantity (ml)</label>
+          <input type="number" id="quantity" placeholder="Enter blood quantity" min="1" required />
+        </div>
+        
+        <div class="form-group">
+          <label for="location">Donation Location</label>
+          <input type="text" id="location" placeholder="Enter donation location" required />
+        </div>
+        
+        <button type="submit">Record Donation</button>
+      </form>
+    </div>
+    
+    <!-- Blood Bank Form -->
+    <div id="bloodBankForm" class="form-section">
+      <h2>Add New Blood Bank</h2>
+      <form id="addBloodBankForm">
+        <div class="form-group">
+          <label for="bank_name">Blood Bank Name</label>
+          <input type="text" id="bank_name" placeholder="Enter blood bank name" required />
+        </div>
+        
+        <div class="form-group">
+          <label for="bank_location">Location</label>
+          <input type="text" id="bank_location" placeholder="Enter blood bank location" required />
+        </div>
+        
+        <div class="form-group">
+          <label for="capacity">Storage Capacity (units)</label>
+          <input type="number" id="capacity" placeholder="Enter storage capacity" min="1" required />
+        </div>
+        
+        <div class="form-group">
+          <label for="bank_contact">Contact Number</label>
+          <input type="tel" id="bank_contact" placeholder="Enter contact number" required />
+        </div>
+        
+        <button type="submit">Add Blood Bank</button>
+      </form>
+    </div>
+    
+    <!-- Hospital Form -->
+    <div id="hospitalForm" class="form-section">
+      <h2>Add New Hospital</h2>
+      <form id="addHospitalForm">
+        <div class="form-group">
+          <label for="hospital_name">Hospital Name</label>
+          <input type="text" id="hospital_name" placeholder="Enter hospital name" required />
+        </div>
+        
+        <div class="form-group">
+          <label for="hospital_location">Location</label>
+          <input type="text" id="hospital_location" placeholder="Enter hospital location" required />
+        </div>
+        
+        <div class="form-group">
+          <label for="hospital_contact">Contact Number</label>
+          <input type="tel" id="hospital_contact" placeholder="Enter contact number" required />
+        </div>
+        
+        <button type="submit">Add Hospital</button>
+      </form>
+    </div>
+    
+    <!-- Blood Request Form -->
+    <div id="requestForm" class="form-section">
+      <h2>Create Blood Request</h2>
+      <form id="addRequestForm">
+        <div class="form-group">
+          <label for="hospital_id">Hospital ID</label>
+          <input type="number" id="hospital_id" placeholder="Enter hospital ID" required />
+        </div>
+        
+        <div class="form-group">
+          <label for="bank_id">Blood Bank ID</label>
+          <input type="number" id="bank_id" placeholder="Enter blood bank ID" required />
+        </div>
+        
+        <div class="form-group">
+          <label for="request_blood_type">Blood Type Required</label>
+          <select id="request_blood_type" required>
+            <option value="">Select Blood Type</option>
+            <option value="A+">A+</option>
+            <option value="A-">A-</option>
+            <option value="B+">B+</option>
+            <option value="B-">B-</option>
+            <option value="AB+">AB+</option>
+            <option value="AB-">AB-</option>
+            <option value="O+">O+</option>
+            <option value="O-">O-</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="request_quantity">Quantity Required (units)</label>
+          <input type="number" id="request_quantity" placeholder="Enter quantity required" min="1" required />
+        </div>
+        
+        <div class="form-group">
+          <label for="urgency">Urgency Level</label>
+          <select id="urgency" required>
+            <option value="">Select Urgency</option>
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+            <option value="Critical">Critical</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="request_date">Request Date</label>
+          <input type="date" id="request_date" required />
+        </div>
+        
+        <button type="submit">Submit Request</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Navigation between forms
+      const navButtons = document.querySelectorAll('nav button');
+      const formSections = document.querySelectorAll('.form-section');
+      
+      navButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          // Update active button
+          navButtons.forEach(btn => btn.classList.remove('active'));
+          this.classList.add('active');
+          
+          // Show corresponding form
+          const targetId = this.id.replace('Btn', 'Form');
+          formSections.forEach(form => {
+            form.classList.remove('active');
+            if (form.id === targetId) {
+              form.classList.add('active');
+            }
+          });
+        });
+      });
+      
+      // Phone number management
+      const addPhoneBtn = document.getElementById('addPhoneBtn');
+      const phoneInputs = document.getElementById('phoneInputs');
+      
+      addPhoneBtn.addEventListener('click', function() {
+        const phoneInputDiv = document.createElement('div');
+        phoneInputDiv.className = 'phone-input';
+        phoneInputDiv.innerHTML = `
+          <input type="tel" placeholder="Enter phone number" required />
+          <button type="button" class="remove-phone-btn">×</button>
+        `;
+        phoneInputs.appendChild(phoneInputDiv);
+        
+        // Enable all remove buttons when there are more than one phone inputs
+        if (phoneInputs.children.length > 1) {
+          document.querySelectorAll('.remove-phone-btn').forEach(btn => {
+            btn.disabled = false;
+          });
+        }
+      });
+      
+      // Event delegation for remove phone button
+      phoneInputs.addEventListener('click', function(e) {
+        if (e.target.classList.contains('remove-phone-btn') && !e.target.disabled) {
+          e.target.parentElement.remove();
+          
+          // Disable the remove button if only one phone input remains
+          if (phoneInputs.children.length === 1) {
+            document.querySelector('.remove-phone-btn').disabled = true;
+          }
+        }
+      });
+      
+      // Display success message
+      function showSuccessMessage(message) {
+        const successMessage = document.getElementById('successMessage');
+        successMessage.textContent = message;
+        successMessage.style.display = 'block';
+        
+        setTimeout(() => {
+          successMessage.style.display = 'none';
+        }, 5000);
+      }
+      
+      // Form submissions
+      // 1. Donor Form
+      document.getElementById('addDonorForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const phoneInputs = document.querySelectorAll('#phoneInputs input');
+        const phoneNumbers = Array.from(phoneInputs).map(input => input.value);
+        
+        const data = {
+          name: document.getElementById('name').value,
+          gender: document.getElementById('gender').value,
+          dob: document.getElementById('dob').value,
+          blood_type: document.getElementById('blood_type').value,
+          phone_numbers: phoneNumbers
+        };
+        
+        try {
+          const res = await fetch('http://localhost:3000/add-donor', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+          });
+          
+          const result = await res.json();
+          showSuccessMessage(`Donor registered successfully with ID: ${result.donorId}`);
+          this.reset();
+          
+          // Reset phone inputs to just one
+          phoneInputs.forEach((input, index) => {
+            if (index > 0) input.parentElement.remove();
+          });
+          phoneInputs[0].value = '';
+          
+        } catch (error) {
+          alert('Error: ' + error.message);
+        }
+      });
+      
+      // 2. Donation Form
+      document.getElementById('addDonationForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const data = {
+          donor_id: document.getElementById('donor_id').value,
+          date: document.getElementById('donation_date').value,
+          quantity: document.getElementById('quantity').value,
+          location: document.getElementById('location').value
+        };
+        
+        try {
+          const res = await fetch('http://localhost:3000/add-donation', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+          });
+          
+          const result = await res.json();
+          showSuccessMessage(`Donation recorded successfully with ID: ${result.donationId}`);
+          this.reset();
+        } catch (error) {
+          alert('Error: ' + error.message);
+        }
+      });
+      
+      // 3. Blood Bank Form
+      document.getElementById('addBloodBankForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const data = {
+          name: document.getElementById('bank_name').value,
+          location: document.getElementById('bank_location').value,
+          capacity: document.getElementById('capacity').value,
+          contact: document.getElementById('bank_contact').value
+        };
+        
+        try {
+          const res = await fetch('http://localhost:3000/add-blood-bank', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+          });
+          
+          const result = await res.json();
+          showSuccessMessage(`Blood bank added successfully with ID: ${result.bankId}`);
+          this.reset();
+        } catch (error) {
+          alert('Error: ' + error.message);
+        }
+      });
+      
+      // 4. Hospital Form
+      document.getElementById('addHospitalForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const data = {
+          name: document.getElementById('hospital_name').value,
+          location: document.getElementById('hospital_location').value,
+          contact: document.getElementById('hospital_contact').value
+        };
+        
+        try {
+          const res = await fetch('http://localhost:3000/add-hospital', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+          });
+          
+          const result = await res.json();
+          showSuccessMessage(`Hospital added successfully with ID: ${result.hospitalId}`);
+          this.reset();
+        } catch (error) {
+          alert('Error: ' + error.message);
+        }
+      });
+      
+      // 5. Blood Request Form
+      document.getElementById('addRequestForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const data = {
+          hospital_id: document.getElementById('hospital_id').value,
+          bank_id: document.getElementById('bank_id').value,
+          blood_type: document.getElementById('request_blood_type').value,
+          quantity: document.getElementById('request_quantity').value,
+          urgency: document.getElementById('urgency').value,
+          date: document.getElementById('request_date').value
+        };
+        
+        try {
+          const res = await fetch('http://localhost:3000/add-request', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+          });
+          
+          const result = await res.json();
+          showSuccessMessage(`Blood request submitted successfully with ID: ${result.requestId}`);
+          this.reset();
+        } catch (error) {
+          alert('Error: ' + error.message);
+        }
+      });
+    });
+  </script>
+</body>
+</html>
