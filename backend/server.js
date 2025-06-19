@@ -1,8 +1,3 @@
-// Blood Donation Management System using Node.js, Express, MySQL
-
-// This is a backend server using Express
-// Entities covered: Donor, Donation (weak), Blood_Bank, Hospital, Blood_Request
-
 const express = require('express');
 const bodyParser = require('body-parser');
 const mysql = require('mysql2');
@@ -16,7 +11,7 @@ app.use(bodyParser.json());
 const db = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: 'Ibrahim$54321', // Use your MySQL password
+  password: 'Ibrahim$54321',
   database: 'blood_donation'
 });
 
@@ -24,75 +19,6 @@ db.connect(err => {
   if (err) throw err;
   console.log('Connected to MySQL');
 });
-
-// ----- TABLE CREATION LOGIC (RUN ONLY ONCE) -----
-// Uncomment and run once to set up the database tables
-/*
-const createTables = () => {
-  db.query(`
-    CREATE TABLE IF NOT EXISTS Donor (
-      Donor_ID INT AUTO_INCREMENT PRIMARY KEY,
-      Name VARCHAR(100),
-      Gender ENUM('Male', 'Female', 'Other'),
-      Date_of_Birth DATE,
-      Blood_Type VARCHAR(5)
-    );
-  `);
-
-  db.query(`
-    CREATE TABLE IF NOT EXISTS Phone_Number (
-      Donor_ID INT,
-      Phone_Number VARCHAR(15),
-      FOREIGN KEY (Donor_ID) REFERENCES Donor(Donor_ID)
-    );
-  `);
-
-  db.query(`
-    CREATE TABLE IF NOT EXISTS Donation (
-      Donation_ID INT AUTO_INCREMENT PRIMARY KEY,
-      Donor_ID INT,
-      Date DATE,
-      Quantity INT,
-      Location VARCHAR(100),
-      FOREIGN KEY (Donor_ID) REFERENCES Donor(Donor_ID)
-    );
-  `);
-
-  db.query(`
-    CREATE TABLE IF NOT EXISTS Blood_Bank (
-      Bank_ID INT AUTO_INCREMENT PRIMARY KEY,
-      Name VARCHAR(100),
-      Location VARCHAR(100),
-      Capacity INT,
-      Contact_Number VARCHAR(15)
-    );
-  `);
-
-  db.query(`
-    CREATE TABLE IF NOT EXISTS Hospital (
-      Hospital_ID INT AUTO_INCREMENT PRIMARY KEY,
-      Name VARCHAR(100),
-      Location VARCHAR(100),
-      Contact_Number VARCHAR(15)
-    );
-  `);
-
-  db.query(`
-    CREATE TABLE IF NOT EXISTS Blood_Request (
-      Request_ID INT AUTO_INCREMENT PRIMARY KEY,
-      Hospital_ID INT,
-      Bank_ID INT,
-      Blood_Type_Required VARCHAR(5),
-      Quantity_Required INT,
-      Urgency_Level VARCHAR(10),
-      Request_Date DATE,
-      FOREIGN KEY (Hospital_ID) REFERENCES Hospital(Hospital_ID),
-      FOREIGN KEY (Bank_ID) REFERENCES Blood_Bank(Bank_ID)
-    );
-  `);
-};
-createTables();
-*/
 
 // ----------- ROUTES -----------
 
@@ -115,7 +41,7 @@ app.post('/add-donor', (req, res) => {
     });
 });
 
-// Add Donation
+
 app.post('/add-donation', (req, res) => {
   const { donor_id, date, quantity, location } = req.body;
   db.query('INSERT INTO Donation (Donor_ID, Date, Quantity, Location) VALUES (?, ?, ?, ?)',
@@ -126,7 +52,7 @@ app.post('/add-donation', (req, res) => {
     });
 });
 
-// Add Blood Bank
+
 app.post('/add-blood-bank', (req, res) => {
   const { name, location, capacity, contact } = req.body;
   db.query('INSERT INTO Blood_Bank (Name, Location, Capacity, Contact_Number) VALUES (?, ?, ?, ?)',
@@ -137,7 +63,7 @@ app.post('/add-blood-bank', (req, res) => {
     });
 });
 
-// Add Hospital
+
 app.post('/add-hospital', (req, res) => {
   const { name, location, contact } = req.body;
   db.query('INSERT INTO Hospital (Name, Location, Contact_Number) VALUES (?, ?, ?)',
@@ -148,7 +74,7 @@ app.post('/add-hospital', (req, res) => {
     });
 });
 
-// Add Blood Request
+
 app.post('/add-request', (req, res) => {
   const { hospital_id, bank_id, blood_type, quantity, urgency, date } = req.body;
   db.query('INSERT INTO Blood_Request (Hospital_ID, Bank_ID, Blood_Type_Required, Quantity_Required, Urgency_Level, Request_Date) VALUES (?, ?, ?, ?, ?, ?)',
@@ -159,7 +85,132 @@ app.post('/add-request', (req, res) => {
     });
 });
 
-// ----------- SERVER -----------
+
+app.get('/donors-with-phones', (req, res) => {
+  db.query(`
+    SELECT 
+      d.Donor_ID,
+      d.Name,
+      d.Gender,
+      d.Date_of_Birth,
+      d.Blood_Type,
+      GROUP_CONCAT(p.Phone_Number) AS Phone_Numbers
+    FROM Donor d
+    LEFT JOIN Phone_Number p ON d.Donor_ID = p.Donor_ID
+    GROUP BY d.Donor_ID
+  `, (err, results) => {
+    if (err) {
+      console.error('Error fetching donors with phones:', err);
+      return res.status(500).send(err);
+    }
+    
+    const formattedResults = results.map(donor => ({
+      ...donor,
+      Phone_Numbers: donor.Phone_Numbers ? donor.Phone_Numbers.split(',') : []
+    }));
+    res.send(formattedResults);
+  });
+});
+
+
+app.get('/donors', (req, res) => {
+  db.query('SELECT * FROM Donor', (err, results) => {
+    if (err) return res.status(500).send(err);
+    res.send(results);
+  });
+});
+
+
+app.get('/phone-numbers', (req, res) => {
+  db.query('SELECT Donor_ID, Phone_Number FROM Phone_Number', (err, results) => {
+    if (err) return res.status(500).send(err);
+    res.send(results);
+  });
+});
+
+
+app.get('/donations', (req, res) => {
+  db.query('SELECT * FROM Donation', (err, results) => {
+    if (err) return res.status(500).send(err);
+    res.send(results);
+  });
+});
+
+
+app.get('/blood-banks', (req, res) => {
+  db.query('SELECT * FROM Blood_Bank', (err, results) => {
+    if (err) return res.status(500).send(err);
+    res.send(results);
+  });
+});
+
+
+app.get('/hospitals', (req, res) => {
+  db.query('SELECT * FROM Hospital', (err, results) => {
+    if (err) return res.status(500).send(err);
+    res.send(results);
+  });
+});
+
+
+app.get('/requests', (req, res) => {
+  db.query('SELECT * FROM Blood_Request', (err, results) => {
+    if (err) return res.status(500).send(err);
+    res.send(results);
+  });
+});
+
+app.get('/search/donors', (req, res) => {
+  const searchTerm = `%${req.query.term}%`;
+  db.query(`
+    SELECT 
+      d.Donor_ID, d.Name, d.Gender, d.Date_of_Birth, d.Blood_Type,
+      GROUP_CONCAT(p.Phone_Number) AS Phone_Numbers
+    FROM Donor d
+    LEFT JOIN Phone_Number p ON d.Donor_ID = p.Donor_ID
+    WHERE d.Name LIKE ? OR d.Blood_Type LIKE ?
+    GROUP BY d.Donor_ID
+  `, [searchTerm, searchTerm], (err, results) => {
+    if (err) return res.status(500).send(err);
+    res.send(results);
+  });
+});
+
+app.get('/search/donations', (req, res) => {
+  const searchTerm = `%${req.query.term}%`;
+  db.query('SELECT * FROM Donation WHERE Location LIKE ? OR Donor_ID LIKE ?', 
+    [searchTerm, searchTerm], (err, results) => {
+    if (err) return res.status(500).send(err);
+    res.send(results);
+  });
+});
+
+app.get('/search/blood-banks', (req, res) => {
+  const searchTerm = `%${req.query.term}%`;
+  db.query('SELECT * FROM Blood_Bank WHERE Name LIKE ? OR Location LIKE ?', 
+    [searchTerm, searchTerm], (err, results) => {
+    if (err) return res.status(500).send(err);
+    res.send(results);
+  });
+});
+
+app.get('/search/hospitals', (req, res) => {
+  const searchTerm = `%${req.query.term}%`;
+  db.query('SELECT * FROM Hospital WHERE Name LIKE ? OR Location LIKE ?', 
+    [searchTerm, searchTerm], (err, results) => {
+    if (err) return res.status(500).send(err);
+    res.send(results);
+  });
+});
+
+app.get('/search/requests', (req, res) => {
+  const searchTerm = `%${req.query.term}%`;
+  db.query('SELECT * FROM Blood_Request WHERE Blood_Type_Required LIKE ? OR Urgency_Level LIKE ?', 
+    [searchTerm, searchTerm], (err, results) => {
+    if (err) return res.status(500).send(err);
+    res.send(results);
+  });
+});
 
 const PORT = 3000;
 app.listen(PORT, () => {

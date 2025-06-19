@@ -4,177 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Blood Donation Management System</title>
-  <style>
-    :root {
-      --primary-color: #e74c3c;
-      --secondary-color: #3498db;
-      --text-color: #333;
-      --light-bg: #f9f9f9;
-      --border-color: #ddd;
-    }
-    
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      padding: 0;
-      margin: 0;
-      color: var(--text-color);
-      background-color: #f5f5f5;
-    }
-    
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 20px;
-    }
-    
-    header {
-      background-color: var(--primary-color);
-      color: white;
-      padding: 15px 0;
-      text-align: center;
-      margin-bottom: 30px;
-    }
-    
-    nav {
-      background-color: #333;
-      display: flex;
-      justify-content: center;
-      margin-bottom: 30px;
-    }
-    
-    nav button {
-      background: none;
-      border: none;
-      color: white;
-      padding: 12px 20px;
-      cursor: pointer;
-      font-size: 16px;
-      transition: background-color 0.3s;
-    }
-    
-    nav button.active {
-      background-color: var(--primary-color);
-    }
-    
-    nav button:hover {
-      background-color: #555;
-    }
-    
-    .form-section {
-      background-color: white;
-      padding: 25px;
-      border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      margin-bottom: 20px;
-      display: none;
-    }
-    
-    .form-section.active {
-      display: block;
-    }
-    
-    h2 {
-      color: var(--primary-color);
-      margin-top: 0;
-      border-bottom: 2px solid var(--border-color);
-      padding-bottom: 10px;
-      margin-bottom: 20px;
-    }
-    
-    .form-group {
-      margin-bottom: 15px;
-    }
-    
-    label {
-      display: block;
-      margin-bottom: 5px;
-      font-weight: 500;
-    }
-    
-    input, select {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid var(--border-color);
-      border-radius: 4px;
-      font-size: 16px;
-      box-sizing: border-box;
-    }
-    
-    button[type="submit"] {
-      background-color: var(--primary-color);
-      color: white;
-      border: none;
-      padding: 12px 20px;
-      font-size: 16px;
-      cursor: pointer;
-      border-radius: 4px;
-      display: block;
-      width: 100%;
-      margin-top: 20px;
-      transition: background-color 0.3s;
-    }
-    
-    button[type="submit"]:hover {
-      background-color: #c0392b;
-    }
-    
-    .phone-numbers-container {
-      border: 1px solid var(--border-color);
-      padding: 15px;
-      border-radius: 4px;
-      margin-bottom: 15px;
-    }
-    
-    .phone-input {
-      display: flex;
-      margin-bottom: 10px;
-      gap: 10px;
-    }
-    
-    .phone-input input {
-      flex-grow: 1;
-    }
-    
-    .add-phone-btn {
-      background-color: var(--secondary-color);
-      color: white;
-      border: none;
-      padding: 8px 12px;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 14px;
-    }
-    
-    .remove-phone-btn {
-      background-color: #e74c3c;
-      color: white;
-      border: none;
-      width: 30px;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    
-    #successMessage {
-      padding: 15px;
-      background-color: #dff0d8;
-      border: 1px solid #d6e9c6;
-      color: #3c763d;
-      border-radius: 4px;
-      margin-bottom: 20px;
-      display: none;
-    }
-    
-    @media (max-width: 768px) {
-      nav {
-        flex-direction: column;
-      }
-      
-      nav button {
-        width: 100%;
-        text-align: center;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
+
 </head>
 <body>
   <header>
@@ -188,6 +19,8 @@
     <button id="hospitalBtn">Hospitals</button>
     <button id="requestBtn">Blood Requests</button>
   </nav>
+
+  
   
   <div class="container">
     <div id="successMessage"></div>
@@ -195,6 +28,10 @@
     <!-- Donor Form -->
     <div id="donorForm" class="form-section active">
       <h2>Add New Donor</h2>
+      <div class="search-section">
+        <input type="text" id="donorSearch" placeholder="Search donors by name, blood type...">
+        <button type="button" id="searchDonorBtn">Search</button>
+      </div>
       <form id="addDonorForm">
         <div class="form-group">
           <label for="name">Full Name</label>
@@ -246,11 +83,40 @@
         
         <button type="submit">Register Donor</button>
       </form>
+      
+      <div class="btn-group">
+        <button id="viewDonorsBtn" class="view-btn">View All Donors</button>
+      </div>
+      
+      <!-- Donor Data Section -->
+      <div id="donorDataSection" class="data-section">
+        <h3>Donor Records</h3>
+        <div id="donorDataContent">
+          <table id="donorTable" class="data-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Gender</th>
+                <th>Date of Birth</th>
+                <th>Blood Type</th>
+                <th>Phone Numbers</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <button class="close-btn" onclick="closeDataSection('donorDataSection')">Close</button>
+      </div>
     </div>
     
     <!-- Donation Form -->
     <div id="donationForm" class="form-section">
       <h2>Record New Donation</h2>
+      <div class="search-section">
+        <input type="text" id="donationSearch" placeholder="Search donations by donor ID, location...">
+        <button type="button" id="searchDonationBtn">Search</button>
+      </div>
       <form id="addDonationForm">
         <div class="form-group">
           <label for="donor_id">Donor ID</label>
@@ -268,17 +134,45 @@
         </div>
         
         <div class="form-group">
-          <label for="location">Donation Location</label>
+          <label for="location">Medical center</label>
           <input type="text" id="location" placeholder="Enter donation location" required />
         </div>
         
         <button type="submit">Record Donation</button>
       </form>
+      
+      <div class="btn-group">
+        <button id="viewDonationsBtn" class="view-btn">View All Donations</button>
+      </div>
+      
+      <!-- Donation Data Section -->
+      <div id="donationDataSection" class="data-section">
+        <h3>Donation Records</h3>
+        <div id="donationDataContent">
+          <table id="donationTable" class="data-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Donor ID</th>
+                <th>Date</th>
+                <th>Quantity (ml)</th>
+                <th>Location</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <button class="close-btn" onclick="closeDataSection('donationDataSection')">Close</button>
+      </div>
     </div>
     
     <!-- Blood Bank Form -->
     <div id="bloodBankForm" class="form-section">
       <h2>Add New Blood Bank</h2>
+      <div class="search-section">
+        <input type="text" id="bloodBankSearch" placeholder="Search blood banks by name, location...">
+        <button type="button" id="searchBloodBankBtn">Search</button>
+      </div>
       <form id="addBloodBankForm">
         <div class="form-group">
           <label for="bank_name">Blood Bank Name</label>
@@ -302,11 +196,39 @@
         
         <button type="submit">Add Blood Bank</button>
       </form>
+      
+      <div class="btn-group">
+        <button id="viewBloodBanksBtn" class="view-btn">View All Blood Banks</button>
+      </div>
+      
+      <!-- Blood Bank Data Section -->
+      <div id="bloodBankDataSection" class="data-section">
+        <h3>Blood Bank Records</h3>
+        <div id="bloodBankDataContent">
+          <table id="bloodBankTable" class="data-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Location</th>
+                <th>Capacity (units)</th>
+                <th>Contact Number</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <button class="close-btn" onclick="closeDataSection('bloodBankDataSection')">Close</button>
+      </div>
     </div>
     
     <!-- Hospital Form -->
     <div id="hospitalForm" class="form-section">
       <h2>Add New Hospital</h2>
+      <div class="search-section">
+        <input type="text" id="hospitalSearch" placeholder="Search hospitals by name, location...">
+        <button type="button" id="searchHospitalBtn">Search</button>
+      </div>
       <form id="addHospitalForm">
         <div class="form-group">
           <label for="hospital_name">Hospital Name</label>
@@ -325,11 +247,38 @@
         
         <button type="submit">Add Hospital</button>
       </form>
+      
+      <div class="btn-group">
+        <button id="viewHospitalsBtn" class="view-btn">View All Hospitals</button>
+      </div>
+      
+      <!-- Hospital Data Section -->
+      <div id="hospitalDataSection" class="data-section">
+        <h3>Hospital Records</h3>
+        <div id="hospitalDataContent">
+          <table id="hospitalTable" class="data-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Location</th>
+                <th>Contact Number</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <button class="close-btn" onclick="closeDataSection('hospitalDataSection')">Close</button>
+      </div>
     </div>
     
     <!-- Blood Request Form -->
     <div id="requestForm" class="form-section">
       <h2>Create Blood Request</h2>
+      <div class="search-section">
+        <input type="text" id="requestSearch" placeholder="Search requests by blood type, urgency...">
+        <button type="button" id="searchRequestBtn">Search</button>
+      </div>
       <form id="addRequestForm">
         <div class="form-group">
           <label for="hospital_id">Hospital ID</label>
@@ -379,219 +328,36 @@
         
         <button type="submit">Submit Request</button>
       </form>
+      
+      <div class="btn-group">
+        <button id="viewRequestsBtn" class="view-btn">View All Blood Requests</button>
+      </div>
+      
+      <!-- Blood Request Data Section -->
+      <div id="requestDataSection" class="data-section">
+        <h3>Blood Request Records</h3>
+        <div id="requestDataContent">
+          <table id="requestTable" class="data-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Hospital ID</th>
+                <th>Bank ID</th>
+                <th>Blood Type</th>
+                <th>Quantity</th>
+                <th>Urgency</th>
+                <th>Request Date</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <button class="close-btn" onclick="closeDataSection('requestDataSection')">Close</button>
+      </div>
     </div>
   </div>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      // Navigation between forms
-      const navButtons = document.querySelectorAll('nav button');
-      const formSections = document.querySelectorAll('.form-section');
-      
-      navButtons.forEach(button => {
-        button.addEventListener('click', function() {
-          // Update active button
-          navButtons.forEach(btn => btn.classList.remove('active'));
-          this.classList.add('active');
-          
-          // Show corresponding form
-          const targetId = this.id.replace('Btn', 'Form');
-          formSections.forEach(form => {
-            form.classList.remove('active');
-            if (form.id === targetId) {
-              form.classList.add('active');
-            }
-          });
-        });
-      });
-      
-      // Phone number management
-      const addPhoneBtn = document.getElementById('addPhoneBtn');
-      const phoneInputs = document.getElementById('phoneInputs');
-      
-      addPhoneBtn.addEventListener('click', function() {
-        const phoneInputDiv = document.createElement('div');
-        phoneInputDiv.className = 'phone-input';
-        phoneInputDiv.innerHTML = `
-          <input type="tel" placeholder="Enter phone number" required />
-          <button type="button" class="remove-phone-btn">×</button>
-        `;
-        phoneInputs.appendChild(phoneInputDiv);
-        
-        // Enable all remove buttons when there are more than one phone inputs
-        if (phoneInputs.children.length > 1) {
-          document.querySelectorAll('.remove-phone-btn').forEach(btn => {
-            btn.disabled = false;
-          });
-        }
-      });
-      
-      // Event delegation for remove phone button
-      phoneInputs.addEventListener('click', function(e) {
-        if (e.target.classList.contains('remove-phone-btn') && !e.target.disabled) {
-          e.target.parentElement.remove();
-          
-          // Disable the remove button if only one phone input remains
-          if (phoneInputs.children.length === 1) {
-            document.querySelector('.remove-phone-btn').disabled = true;
-          }
-        }
-      });
-      
-      // Display success message
-      function showSuccessMessage(message) {
-        const successMessage = document.getElementById('successMessage');
-        successMessage.textContent = message;
-        successMessage.style.display = 'block';
-        
-        setTimeout(() => {
-          successMessage.style.display = 'none';
-        }, 5000);
-      }
-      
-      // Form submissions
-      // 1. Donor Form
-      document.getElementById('addDonorForm').addEventListener('submit', async function(e) {
-        e.preventDefault();
-        
-        const phoneInputs = document.querySelectorAll('#phoneInputs input');
-        const phoneNumbers = Array.from(phoneInputs).map(input => input.value);
-        
-        const data = {
-          name: document.getElementById('name').value,
-          gender: document.getElementById('gender').value,
-          dob: document.getElementById('dob').value,
-          blood_type: document.getElementById('blood_type').value,
-          phone_numbers: phoneNumbers
-        };
-        
-        try {
-          const res = await fetch('http://localhost:3000/add-donor', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
-          });
-          
-          const result = await res.json();
-          showSuccessMessage(`Donor registered successfully with ID: ${result.donorId}`);
-          this.reset();
-          
-          // Reset phone inputs to just one
-          phoneInputs.forEach((input, index) => {
-            if (index > 0) input.parentElement.remove();
-          });
-          phoneInputs[0].value = '';
-          
-        } catch (error) {
-          alert('Error: ' + error.message);
-        }
-      });
-      
-      // 2. Donation Form
-      document.getElementById('addDonationForm').addEventListener('submit', async function(e) {
-        e.preventDefault();
-        
-        const data = {
-          donor_id: document.getElementById('donor_id').value,
-          date: document.getElementById('donation_date').value,
-          quantity: document.getElementById('quantity').value,
-          location: document.getElementById('location').value
-        };
-        
-        try {
-          const res = await fetch('http://localhost:3000/add-donation', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
-          });
-          
-          const result = await res.json();
-          showSuccessMessage(`Donation recorded successfully with ID: ${result.donationId}`);
-          this.reset();
-        } catch (error) {
-          alert('Error: ' + error.message);
-        }
-      });
-      
-      // 3. Blood Bank Form
-      document.getElementById('addBloodBankForm').addEventListener('submit', async function(e) {
-        e.preventDefault();
-        
-        const data = {
-          name: document.getElementById('bank_name').value,
-          location: document.getElementById('bank_location').value,
-          capacity: document.getElementById('capacity').value,
-          contact: document.getElementById('bank_contact').value
-        };
-        
-        try {
-          const res = await fetch('http://localhost:3000/add-blood-bank', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
-          });
-          
-          const result = await res.json();
-          showSuccessMessage(`Blood bank added successfully with ID: ${result.bankId}`);
-          this.reset();
-        } catch (error) {
-          alert('Error: ' + error.message);
-        }
-      });
-      
-      // 4. Hospital Form
-      document.getElementById('addHospitalForm').addEventListener('submit', async function(e) {
-        e.preventDefault();
-        
-        const data = {
-          name: document.getElementById('hospital_name').value,
-          location: document.getElementById('hospital_location').value,
-          contact: document.getElementById('hospital_contact').value
-        };
-        
-        try {
-          const res = await fetch('http://localhost:3000/add-hospital', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
-          });
-          
-          const result = await res.json();
-          showSuccessMessage(`Hospital added successfully with ID: ${result.hospitalId}`);
-          this.reset();
-        } catch (error) {
-          alert('Error: ' + error.message);
-        }
-      });
-      
-      // 5. Blood Request Form
-      document.getElementById('addRequestForm').addEventListener('submit', async function(e) {
-        e.preventDefault();
-        
-        const data = {
-          hospital_id: document.getElementById('hospital_id').value,
-          bank_id: document.getElementById('bank_id').value,
-          blood_type: document.getElementById('request_blood_type').value,
-          quantity: document.getElementById('request_quantity').value,
-          urgency: document.getElementById('urgency').value,
-          date: document.getElementById('request_date').value
-        };
-        
-        try {
-          const res = await fetch('http://localhost:3000/add-request', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
-          });
-          
-          const result = await res.json();
-          showSuccessMessage(`Blood request submitted successfully with ID: ${result.requestId}`);
-          this.reset();
-        } catch (error) {
-          alert('Error: ' + error.message);
-        }
-      });
-    });
+<script src="script.js"></script>
   </script>
 </body>
 </html>
