@@ -1,0 +1,103 @@
+body,
+html {
+  margin: 0;
+  padding: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f4f7f6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.register-container {
+  background: white;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  max-width: 450px;
+  border-top: 6px solid #e74c3c;
+}
+
+.register-header {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.register-header h2 {
+  color: #2c3e50;
+  margin: 0 0 5px 0;
+}
+
+.register-header p {
+  color: #7f8c8d;
+  margin: 0;
+  font-size: 14px;
+}
+
+.input-group {
+  margin-bottom: 15px;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #34495e;
+  font-size: 13px;
+}
+
+.input-group input,
+.input-group select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #bdc3c7;
+  border-radius: 5px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 12px;
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 15px;
+  transition: background-color 0.3s;
+}
+
+.submit-btn:hover {
+  background-color: #c0392b;
+}
+
+.success-message {
+  display: none;
+  background-color: #d4edda;
+  color: #155724;
+  padding: 12px;
+  border-radius: 5px;
+  margin-top: 15px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.register-footer {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.register-footer a {
+  text-decoration: none;
+  color: #3498db;
+  font-size: 14px;
+}
+
+.register-footer a:hover {
+  text-decoration: underline;
+}

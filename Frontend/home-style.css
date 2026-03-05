@@ -1,0 +1,133 @@
+/* Basic Reset */
+body,
+html {
+  margin: 0;
+  padding: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white;
+  padding: 15px 50px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  color: #e74c3c; /* Matches your project's red theme */
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: #555;
+  margin-left: 25px;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.nav-links a:hover {
+  color: #e74c3c;
+}
+
+/* Special styling for the Admin button */
+.nav-links .admin-btn {
+  border: 2px solid #e74c3c;
+  padding: 8px 16px;
+  border-radius: 5px;
+  color: #e74c3c;
+}
+
+.nav-links .admin-btn:hover {
+  background-color: #e74c3c;
+  color: white;
+}
+
+/* Hero Banner */
+.hero {
+  /* High-quality welcoming image with a dark overlay so text is readable */
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+    url("https://images.unsplash.com/photo-1615461066841-6116e61058f4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80");
+  background-size: cover;
+  background-position: center;
+  height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: white;
+}
+
+.hero-content {
+  max-width: 800px;
+  padding: 0 20px;
+}
+
+.hero-content h1 {
+  font-size: 52px;
+  margin-bottom: 15px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.hero-content p {
+  font-size: 20px;
+  margin-bottom: 35px;
+  line-height: 1.5;
+}
+
+/* Call to Action Button */
+.cta-btn {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 16px 32px;
+  font-size: 18px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  transition:
+    background-color 0.3s,
+    transform 0.1s;
+}
+
+.cta-btn:hover {
+  background-color: #c0392b;
+  transform: translateY(-2px);
+}
+
+/* Information Cards */
+.info-section {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  padding: 60px 20px;
+  flex-wrap: wrap;
+}
+
+.info-card {
+  background: white;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  width: 300px;
+  text-align: center;
+  border-top: 5px solid #e74c3c;
+  transition: transform 0.3s;
+}
+
+.info-card:hover {
+  transform: translateY(-5px);
+}
+
+.info-card h3 {
+  color: #2c3e50;
+  margin-top: 0;
+}

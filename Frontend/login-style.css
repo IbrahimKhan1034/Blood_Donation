@@ -1,0 +1,113 @@
+/* Reset and Base Styles */
+body,
+html {
+  margin: 0;
+  padding: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  height: 100%;
+}
+
+/* Hospital Background Image with Dark Overlay */
+body {
+  /* High-quality hospital corridor background */
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+    url("https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Frosted Glass Login Box */
+.login-container {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 400px;
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.login-header h2 {
+  color: #e74c3c; /* Matching your primary color */
+  margin: 0 0 10px 0;
+  font-size: 28px;
+}
+
+.login-header p {
+  color: #555;
+  margin: 0;
+  font-size: 14px;
+}
+
+/* Form Styling */
+.input-group {
+  margin-bottom: 20px;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: #333;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 15px;
+  box-sizing: border-box;
+  transition: border-color 0.3s;
+}
+
+.input-group input:focus {
+  outline: none;
+  border-color: #e74c3c;
+  box-shadow: 0 0 5px rgba(231, 76, 60, 0.3);
+}
+
+/* Button Styling */
+.login-btn {
+  width: 100%;
+  padding: 14px;
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition:
+    background-color 0.3s,
+    transform 0.1s;
+  margin-top: 10px;
+}
+
+.login-btn:hover {
+  background-color: #c0392b;
+}
+
+.login-btn:active {
+  transform: scale(0.98);
+}
+
+.login-footer {
+  text-align: center;
+  margin-top: 25px;
+  font-size: 12px;
+  color: #777;
+  border-top: 1px solid #eee;
+  padding-top: 15px;
+}

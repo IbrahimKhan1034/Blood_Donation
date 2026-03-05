@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register as a Donor - BloodConnect</title>
+    <link rel="stylesheet" href="register-style.css" />
+  </head>
+  <body>
+    <div class="register-container">
+      <div class="register-header">
+        <h2>Join the Cause</h2>
+        <p>Register as a blood donor and save lives.</p>
+      </div>
+
+      <form id="publicRegistrationForm">
+        <div class="input-group">
+          <label>Full Name</label>
+          <input type="text" id="reg-name" placeholder="John Doe" required />
+        </div>
+
+        <div class="input-group">
+          <label>Gender</label>
+          <select id="reg-gender" required>
+            <option value="">Select...</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+
+        <div class="input-group">
+          <label>Date of Birth</label>
+          <input type="date" id="reg-dob" required />
+        </div>
+
+        <div class="input-group">
+          <label>Blood Type</label>
+          <select id="reg-blood" required>
+            <option value="">Select...</option>
+            <option value="A+">A+</option>
+            <option value="A-">A-</option>
+            <option value="B+">B+</option>
+            <option value="B-">B-</option>
+            <option value="AB+">AB+</option>
+            <option value="AB-">AB-</option>
+            <option value="O+">O+</option>
+            <option value="O-">O-</option>
+          </select>
+        </div>
+
+        <div class="input-group">
+          <label>Phone Number</label>
+          <input
+            type="tel"
+            id="reg-phone"
+            placeholder="e.g. 555-0198"
+            required
+          />
+        </div>
+
+        <button type="submit" class="submit-btn">Register Now</button>
+      </form>
+
+      <div id="success-msg" class="success-message"></div>
+
+      <div class="register-footer">
+        <a href="home.html">← Back to Homepage</a>
+      </div>
+    </div>
+
+    <script>
+      document
+        .getElementById("publicRegistrationForm")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
+
+          // Gather the data (Notice we put the phone number inside an array [] because your backend expects it!)
+          const data = {
+            name: document.getElementById("reg-name").value,
+            gender: document.getElementById("reg-gender").value,
+            dob: document.getElementById("reg-dob").value,
+            blood_type: document.getElementById("reg-blood").value,
+            phone_numbers: [document.getElementById("reg-phone").value],
+          };
+
+          try {
+            const response = await fetch("http://127.0.0.1:3000/add-donor", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(data),
+            });
+
+            if (response.ok) {
+              const msgBox = document.getElementById("success-msg");
+              msgBox.textContent =
+                "Thank you! You are now registered as a donor.";
+              msgBox.style.display = "block";
+              this.reset(); // Clear the form
+            } else {
+              alert("Failed to register. Please try again.");
+            }
+          } catch (error) {
+            console.error("Error:", error);
+            alert("Could not connect to the server.");
+          }
+        });
+    </script>
+  </body>
+</html>

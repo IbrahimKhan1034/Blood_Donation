@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - Blood Donation System</title>
+    <link rel="stylesheet" href="login-style.css" />
+  </head>
+  <body>
+    <div class="login-container">
+      <div class="login-header">
+        <h2>Welcome Back</h2>
+        <p>Blood Donation Management System</p>
+      </div>
+
+      <form id="loginForm">
+        <div class="input-group">
+          <label for="username">Username</label>
+          <input
+            type="text"
+            id="username"
+            placeholder="Enter your username"
+            required
+          />
+        </div>
+
+        <div class="input-group">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            placeholder="Enter your password"
+            required
+          />
+        </div>
+
+        <button type="submit" class="login-btn">Secure Login</button>
+      </form>
+
+      <div class="login-footer">
+        <p>Authorized Medical Personnel Only</p>
+      </div>
+    </div>
+    <script>
+      document
+        .getElementById("loginForm")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault(); // Prevents the page from reloading
+
+          const usernameInput = document.getElementById("username").value;
+          const passwordInput = document.getElementById("password").value;
+
+          try {
+            // Send the data to your Node.js backend
+            const response = await fetch("http://127.0.0.1:3000/login", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                username: usernameInput,
+                password: passwordInput,
+              }),
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+              // If the backend says success, redirect to the dashboard!
+              window.location.href = "index.html";
+            } else {
+              // If the backend says fail, show an alert
+              alert("Access Denied: " + result.message);
+            }
+          } catch (error) {
+            console.error("Login error:", error);
+            alert("Could not connect to the server. Is your backend running?");
+          }
+        });
+    </script>
+  </body>
+</html>
