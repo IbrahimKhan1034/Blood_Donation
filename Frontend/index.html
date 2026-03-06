@@ -27,7 +27,7 @@
     
     <!-- Donor Form -->
     <div id="donorForm" class="form-section active">
-      <div id="donorForm" class="form-section active">
+      
       <h2>Donor Management</h2>
       
       <div class="search-container" style="display: flex; gap: 10px; margin-bottom: 25px; padding-bottom: 20px; border-bottom: 1px solid var(--border-color);">
@@ -37,7 +37,7 @@
       </div>
 
       <h3 style="color: var(--secondary-color); margin-bottom: 15px;">Register New Donor</h3>
-      <h2>Add New Donor</h2>
+      
       <form id="addDonorForm">
         <div class="form-group">
           <label for="name">Full Name</label>
@@ -115,6 +115,11 @@
     <!-- Donation Form -->
     <div id="donationForm" class="form-section">
       <h2>Record New Donation</h2>
+      <div class="search-container" style="display: flex; gap: 10px; margin-bottom: 25px; padding-bottom: 20px; border-bottom: 1px solid var(--border-color);">
+        <input type="text" id="searchDonationInput" placeholder="Search by Donation ID, Donor ID, or Location..." style="flex: 2; padding: 12px; border: 1px solid var(--border-color); border-radius: 4px; font-size: 15px;">
+        <button type="button" id="searchDonationBtn" style="flex: 1; background-color: #2c3e50; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 15px; font-weight: bold;">🔍 Search</button>
+        <button type="button" id="viewDonationsBtn" class="view-btn" style="flex: 1; margin-top: 0; font-size: 15px;">View All Donations</button>
+      </div>
       <form id="addDonationForm">
         <div class="form-group">
           <label for="donor_id">Donor ID</label>
@@ -139,9 +144,7 @@
         <button type="submit">Record Donation</button>
       </form>
       
-      <div class="btn-group">
-        <button id="viewDonationsBtn" class="view-btn">View All Donations</button>
-      </div>
+      
       
       <!-- Donation Data Section -->
       <div id="donationDataSection" class="data-section">
@@ -167,6 +170,11 @@
     <!-- Blood Bank Form -->
     <div id="bloodBankForm" class="form-section">
       <h2>Add New Blood Bank</h2>
+      <div class="search-container" style="display: flex; gap: 10px; margin-bottom: 25px; padding-bottom: 20px; border-bottom: 1px solid var(--border-color);">
+        <input type="text" id="searchBloodBankInput" placeholder="Search by ID, Name, or Location..." style="flex: 2; padding: 12px; border: 1px solid var(--border-color); border-radius: 4px; font-size: 15px;">
+        <button type="button" id="searchBloodBankBtn" style="flex: 1; background-color: #2c3e50; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 15px; font-weight: bold;">🔍 Search</button>
+        <button type="button" id="viewBloodBanksBtn" class="view-btn" style="flex: 1; margin-top: 0; font-size: 15px;">View All Blood Banks</button>
+      </div>
       <form id="addBloodBankForm">
         <div class="form-group">
           <label for="bank_name">Blood Bank Name</label>
@@ -190,10 +198,6 @@
         
         <button type="submit">Add Blood Bank</button>
       </form>
-      
-      <div class="btn-group">
-        <button id="viewBloodBanksBtn" class="view-btn">View All Blood Banks</button>
-      </div>
       
       <!-- Blood Bank Data Section -->
       <div id="bloodBankDataSection" class="data-section">
@@ -219,6 +223,11 @@
     <!-- Hospital Form -->
     <div id="hospitalForm" class="form-section">
       <h2>Add New Hospital</h2>
+      <div class="search-container" style="display: flex; gap: 10px; margin-bottom: 25px; padding-bottom: 20px; border-bottom: 1px solid var(--border-color);">
+        <input type="text" id="searchHospitalInput" placeholder="Search by ID, Name, or Location..." style="flex: 2; padding: 12px; border: 1px solid var(--border-color); border-radius: 4px; font-size: 15px;">
+        <button type="button" id="searchHospitalBtn" style="flex: 1; background-color: #2c3e50; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 15px; font-weight: bold;">🔍 Search</button>
+        <button type="button" id="viewHospitalsBtn" class="view-btn" style="flex: 1; margin-top: 0; font-size: 15px;">View All Hospitals</button>
+      </div>
       <form id="addHospitalForm">
         <div class="form-group">
           <label for="hospital_name">Hospital Name</label>
@@ -237,10 +246,6 @@
         
         <button type="submit">Add Hospital</button>
       </form>
-      
-      <div class="btn-group">
-        <button id="viewHospitalsBtn" class="view-btn">View All Hospitals</button>
-      </div>
       
       <!-- Hospital Data Section -->
       <div id="hospitalDataSection" class="data-section">
@@ -265,6 +270,12 @@
     <!-- Blood Request Form -->
     <div id="requestForm" class="form-section">
       <h2>Create Blood Request</h2>
+      
+      <div class="search-container" style="display: flex; gap: 10px; margin-bottom: 25px; padding-bottom: 20px; border-bottom: 1px solid var(--border-color);">
+        <input type="text" id="searchRequestInput" placeholder="Search by Request ID, Blood Type, or Urgency..." style="flex: 2; padding: 12px; border: 1px solid var(--border-color); border-radius: 4px; font-size: 15px;">
+        <button type="button" id="searchRequestBtn" style="flex: 1; background-color: #2c3e50; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 15px; font-weight: bold;">🔍 Search</button>
+        <button type="button" id="viewRequestsBtn" class="view-btn" style="flex: 1; margin-top: 0; font-size: 15px;">View All Requests</button>
+      </div>
       <form id="addRequestForm">
         <div class="form-group">
           <label for="hospital_id">Hospital ID</label>
@@ -314,10 +325,6 @@
         
         <button type="submit">Submit Request</button>
       </form>
-      
-      <div class="btn-group">
-        <button id="viewRequestsBtn" class="view-btn">View All Blood Requests</button>
-      </div>
       
       <!-- Blood Request Data Section -->
       <div id="requestDataSection" class="data-section">

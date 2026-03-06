@@ -5,27 +5,50 @@
   --light-bg: #f9f9f9;
   --border-color: #ddd;
 }
-
 body {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   padding: 0;
   margin: 0;
   color: var(--text-color);
-  background-color: #f5f5f5;
+
+  /* --- NEW BACKGROUND SETTINGS --- */
+  /* You can replace this URL with any image link or a local file like url('bg.jpg') */
+  background-image: url("https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2000&auto=format&fit=crop");
+  background-size: cover; /* Makes the image stretch to fit the screen */
+  background-position: center; /* Centers the image perfectly */
+  background-attachment: fixed; /* The magic trick: keeps the image still while you scroll! */
+  background-color: #f5f5f5; /* Fallback color just in case the image loads slowly */
 }
 
 .container {
+  flex: 1;
   max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
+  width: 90%;
+  margin: 15px auto;
+  padding: 30px;
+
+  /* --- THE FROSTED GLASS EFFECT --- */
+  background: rgba(255, 255, 255, 0.75); /* More transparent white */
+  backdrop-filter: blur(15px); /* Blurs the background image behind it */
+  -webkit-backdrop-filter: blur(15px); /* Safari support */
+  border: 1px solid rgba(255, 255, 255, 0.4); /* Subtle shiny edge */
+
+  border-radius: 16px; /* Slightly rounder, softer corners */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); /* Soft, elegant shadow */
+  overflow-y: auto;
 }
 
 header {
-  background-color: var(--primary-color);
+  background-color: rgba(
+    44,
+    62,
+    80,
+    0.95
+  ); /* Dark blue/grey with slight transparency */
   color: white;
-  padding: 15px 0;
   text-align: center;
-  margin-bottom: 30px;
+  padding: 20px 0;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
 nav {
@@ -79,39 +102,62 @@ h2 {
 }
 
 label {
+  font-weight: 600;
+  color: #34495e; /* Elegant dark blue/grey instead of harsh black */
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
   display: block;
-  margin-bottom: 5px;
-  font-weight: 500;
 }
 
-input,
+input[type="text"],
+input[type="number"],
+input[type="date"],
+input[type="tel"],
 select {
   width: 100%;
-  padding: 10px;
-  border: 1px solid var(--border-color);
-  border-radius: 4px;
-  font-size: 16px;
+  padding: 12px 16px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px; /* Smooth rounded corners */
+  background-color: rgba(255, 255, 255, 0.9);
+  font-size: 14px;
+  color: #2c3e50;
+  transition: all 0.3s ease; /* Smooth animation */
   box-sizing: border-box;
 }
 
-button[type="submit"],
-.view-btn {
-  background-color: var(--primary-color);
-  color: white;
-  border: none;
-  padding: 12px 20px;
-  font-size: 16px;
-  cursor: pointer;
-  border-radius: 4px;
-  display: block;
-  width: 100%;
-  margin-top: 20px;
-  transition: background-color 0.3s;
+/* The "Glow" effect when a user clicks inside a box */
+input:focus,
+select:focus {
+  outline: none;
+  border-color: #3498db; /* Blue border */
+  box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.15); /* Blue glowing halo */
+  background-color: #ffffff;
 }
 
-button[type="submit"]:hover,
-.view-btn:hover {
-  background-color: #c0392b;
+/* Premium Submit Buttons */
+form button[type="submit"] {
+  grid-column: span 2;
+  margin-top: 15px;
+  background: linear-gradient(135deg, #e74c3c, #c0392b); /* Red gradient */
+  color: white;
+  padding: 14px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3); /* Red glowing shadow */
+}
+
+/* Make the button "pop" when you hover over it */
+form button[type="submit"]:hover {
+  transform: translateY(-2px); /* Lifts the button slightly up */
+  box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4); /* Expands the shadow */
 }
 
 .view-btn {
@@ -170,14 +216,11 @@ button[type="submit"]:hover,
 }
 
 .data-section {
-  scroll-margin-top: 20px; /* Leaves a little gap at the top when scrolling */
-  transition: all 0.4s ease;
-  background-color: white;
-  padding: 25px;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  margin-top: 20px;
-  display: none;
+  display: none; /* Keep hidden until button is clicked */
+  margin-top: 30px;
+  scroll-margin-top: 100px; /* Gives space for the header when auto-scrolling */
+  border-top: 2px solid #e74c3c;
+  padding-top: 20px;
 }
 
 .data-section h3 {

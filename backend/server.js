@@ -25,7 +25,7 @@ db.connect(err => {
 // 1. Admin Login Route
 app.post('/login', (req, res) => {
   const { username, password } = req.body;
-  console.log("Login attempt received for user:", username); // This will print in your terminal!
+  console.log("Login attempt received for user:", username); 
 
   db.query('SELECT * FROM Admin WHERE Username = ? AND Password = ?', 
     [username, password], 
@@ -103,12 +103,16 @@ app.post('/add-request', (req, res) => {
     });
 });
 
+
+// ==========================================
+// SEARCH ROUTES
+// ==========================================
+
 // Search Donors Route
 app.get('/search-donors', (req, res) => {
   const searchTerm = req.query.q;
-  const searchQuery = `%${searchTerm}%`; // The % signs let MySQL do a "fuzzy" search (e.g., searching "A" finds "A+")
+  const searchQuery = `%${searchTerm}%`;
 
-  // Check if the search term is a number (for ID searching)
   const searchId = isNaN(searchTerm) ? null : parseInt(searchTerm);
 
   db.query(`
@@ -129,7 +133,6 @@ app.get('/search-donors', (req, res) => {
       return res.status(500).send(err);
     }
     
-    // Format the phone numbers before sending to frontend
     const formattedResults = results.map(donor => ({
       ...donor,
       Phone_Numbers: donor.Phone_Numbers ? donor.Phone_Numbers.split(',') : []
@@ -138,6 +141,55 @@ app.get('/search-donors', (req, res) => {
     res.send(formattedResults);
   });
 });
+
+// Search Donations
+app.get('/search-donations', (req, res) => {
+  const searchTerm = `%${req.query.q}%`;
+  const searchId = isNaN(req.query.q) ? null : parseInt(req.query.q);
+  db.query(`SELECT * FROM Donation WHERE Location LIKE ? OR Donation_ID = ? OR Donor_ID = ?`, 
+    [searchTerm, searchId, searchId], (err, results) => {
+    if (err) return res.status(500).send(err);
+    res.send(results);
+  });
+});
+
+// Search Blood Banks
+app.get('/search-blood-banks', (req, res) => {
+  const searchTerm = `%${req.query.q}%`;
+  const searchId = isNaN(req.query.q) ? null : parseInt(req.query.q);
+  db.query(`SELECT * FROM Blood_Bank WHERE Name LIKE ? OR Location LIKE ? OR Bank_ID = ?`, 
+    [searchTerm, searchTerm, searchId], (err, results) => {
+    if (err) return res.status(500).send(err);
+    res.send(results);
+  });
+});
+
+// Search Hospitals
+app.get('/search-hospitals', (req, res) => {
+  const searchTerm = `%${req.query.q}%`;
+  const searchId = isNaN(req.query.q) ? null : parseInt(req.query.q);
+  db.query(`SELECT * FROM Hospital WHERE Name LIKE ? OR Location LIKE ? OR Hospital_ID = ?`, 
+    [searchTerm, searchTerm, searchId], (err, results) => {
+    if (err) return res.status(500).send(err);
+    res.send(results);
+  });
+});
+
+// Search Requests
+app.get('/search-requests', (req, res) => {
+  const searchTerm = `%${req.query.q}%`;
+  const searchId = isNaN(req.query.q) ? null : parseInt(req.query.q);
+  db.query(`SELECT * FROM Blood_Request WHERE Blood_Type_Required LIKE ? OR Urgency_Level LIKE ? OR Request_ID = ?`, 
+    [searchTerm, searchTerm, searchId], (err, results) => {
+    if (err) return res.status(500).send(err);
+    res.send(results);
+  });
+});
+
+
+// ==========================================
+// FETCH ALL ROUTES (VIEW ALL BUTTONS)
+// ==========================================
 
 // 7. Get Donors with Phones
 app.get('/donors-with-phones', (req, res) => {
@@ -207,8 +259,11 @@ app.get('/requests', (req, res) => {
   });
 });
 
-// Start Server
+
+// ==========================================
+// SERVER STARTUP
+// ==========================================
 const PORT = 3000;
 app.listen(PORT, () => {
-  console.log(`SERVER V2 IS RUNNING! LOGIN IS READY ON PORT ${PORT}`);
+  console.log(`SERVER V3 WITH SEARCH IS RUNNING ON PORT ${PORT}`);
 });
