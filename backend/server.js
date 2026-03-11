@@ -9,10 +9,14 @@ app.use(bodyParser.json());
 
 // MySQL Connection
 const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: 'Ibrahim$54321',
-  database: 'blood_donation'
+    host: 'gateway01.ap-southeast-1.prod.aws.tidbcloud.com', // Paste your exact TiDB Host here
+    port: 4000,
+    user: '285uJ5CPMQ3A355.root',                            // Paste your exact TiDB User here
+    password: 'Bn8XDE57EDSicSfY',                          // Paste your generated TiDB password
+    database: 'blood_donation',
+    ssl: { 
+        rejectUnauthorized: true // This is REQUIRED for cloud databases!
+    }
 });
 
 db.connect(err => {
